@@ -1,0 +1,24 @@
+page-login {
+  .flex-container{
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    height: 100%;
+  }
+  .background-login{
+    background: #771b7e;
+    background: -moz-linear-gradient(bottom, #771b7e 0%, #cd4a16 54%, #f4ce07 100%);
+    background: -webkit-linear-gradient(bottom, #771b7e 0%,#cd4a16 54%,#f4ce07 100%);
+    background: linear-gradient(to top, #771b7e 0%,#cd4a16 54%,#f4ce07 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#771b7e', endColorstr='#f4ce07',GradientType=1 );
+  }
+  .btn-login{
+    margin: auto;
+  }
+  #wwlogo{
+    width: 75%;
+    height: auto;
+    background: none;
+  }
+}
