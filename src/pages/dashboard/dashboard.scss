@@ -1,0 +1,25 @@
+page-dashboard {
+  .complex-value{
+    font-weight: 700;
+    font-size: xx-large;
+  }
+  .deviceName{
+    font-weight: 700;
+    font-size: large;
+  }
+  .red{
+    color: #D32F2F;
+  }
+  .blue{
+    color: #2962FF;
+  }
+  .grey{
+    color: #616161;
+  }
+  .status-on{
+    border-top: 5px solid #32db64;
+  }
+  .status-off{
+    border-top: 5px solid #d32f2f;
+  }
+}
