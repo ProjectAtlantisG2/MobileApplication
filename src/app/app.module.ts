@@ -15,12 +15,15 @@ import { AuthProvider } from '../providers/auth/auth';
 import { DataProvider } from '../providers/data/data';
 import { IonicStorageModule } from "@ionic/storage";
 import { DevicesProvider } from '../providers/devices/devices';
+import {DevicesPage} from "../pages/devices/devices";
+// import { DevicesPageModule } from "../pages/devices/devices.module";
 
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
-    LoginPage
+    LoginPage,
+    // DevicesPage
   ],
   imports: [
     BrowserModule,
