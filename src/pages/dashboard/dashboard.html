@@ -15,7 +15,7 @@
 
   <ion-toolbar no-border>
     <ion-segment [(ngModel)]="devicesData" no-border no-padding no-margin>
-      <ion-segment-button value="complex" class="segment-title">
+      <ion-segment-button (click)="drawCharts()" value="complex" class="segment-title">
         Dashboard
       </ion-segment-button>
       <ion-segment-button value="devices" class="segment-title">
@@ -53,7 +53,7 @@
 
     <ion-list *ngSwitchCase="'devices'">
       <ion-item-group [reorder]="true" (ionItemReorder)="reorderItems($event)">
-        <ion-item *ngFor="let device of devicesList" (click)="navigateToDevice(device.uuid)">
+        <ion-item *ngFor="let device of devicesListLocal" (click)="navigateToDevice(device)">
           <h2>{{ device.name }}</h2>
           <p>{{ device.macAddress }}</p>
           <ion-row *ngIf="device.category == 'sensor'" class="device-data">
@@ -70,7 +70,6 @@
                 <span *ngIf="device.status == true" class="complex-value"> ON</span>
                 <span *ngIf="device.status == false" class="complex-value"> OFF</span>
               </p>
-              <!--<ion-toggle [(ngModel)]="device.status"></ion-toggle>-->
             </div>
           </ion-row>
         </ion-item>

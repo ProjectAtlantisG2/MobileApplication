@@ -23,30 +23,203 @@ export class DashboardPage {
   @ViewChild('refresh') refreshIcon;
 
   devicesData = 'complex';
-  devicesList: any = [{
+  // Degeux mais fonctionne en local test DevApp #BalanceTonCode
+  devicesListLocal: any = [
+    {
       "name":"Thermometer #1",
-      "macAddress":"65:5D:21:42:A6:0D",
-      "category":"sensor",
-      "metric":"celsius_degree",
-      "uuid":"a244ae33-324c-44ad-bddd-208103deba1a",
-      "data":21
+      "deviceid": "755cbb65-431a-4f68-a3a0-f7662bc48ba2",
+      "macAddress": "00:0a:95:9d:68:16",
+      "elapsedBetweenPoints": 1000,
+      "idEmployee": {
+        "timestamp": 1530632711,
+        "machineIdentifier": 4302123,
+        "processIdentifier": 9600,
+        "counter": 5852569,
+        "time": 1530632711000,
+        "date": "2018-07-03T15:45:11.000+0000",
+        "timeSecond": 1530632711
+      },
+      "uuid": "755cbb65-431a-4f68-a3a0-f7662bc48ba2",
+      "category": "sensor",
+      "metric": "celsius",
+      "data": [
+        {
+          "month": "january",
+          "days": [
+            {
+              "daynumber":1,
+              "points": [
+                37,
+                36,
+                34,
+                37,
+                39,
+                38,
+                30,
+                33,
+                30,
+                35
+              ]
+            },
+            {
+              "daynumber":2,
+              "points": [
+                36,
+                36,
+                34,
+                37,
+                36,
+                35,
+                32,
+                31,
+                30,
+                34
+              ]
+            },
+            {
+              "daynumber":3,
+              "points": [
+                36,
+                33,
+                34,
+                34,
+                36,
+                35,
+                32,
+                33,
+                30,
+                31
+              ]
+            }
+          ]
+        }
+      ]
     },
     {
       "name":"Humidity sensor #1",
-      "macAddress":"8C:42:13:37:B4:A3",
-      "category":"sensor",
-      "metric":"humidity_level",
+      "deviceid": "3877e786-8f2b-4e9e-935b-26c34e34f25c",
+      "macAddress": "00:0a:95:9d:68:16",
+      "elapsedBetweenPoints": 1000,
+      "idEmployee": {
+        "timestamp": 1530632711,
+        "machineIdentifier": 4302123,
+        "processIdentifier": 9600,
+        "counter": 5852569,
+        "time": 1530632711000,
+        "date": "2018-07-03T15:45:11.000+0000",
+        "timeSecond": 1530632711
+      },
+      "category": "sensor",
+      "metric": "percentage",
       "uuid":"a219ae54-324c-44ad-a1dd-2018a5deba1a",
-      "data":47
-    },{
+      "data": [
+        {
+          "month": "lorem",
+          "days": [
+            {
+              "dayNumber": 1,
+              "points": [
+                37,
+                36,
+                34,
+                37,
+                39,
+                38,
+                30,
+                33,
+                30,
+                35
+              ]
+            },
+            {
+              "dayNumber": 2,
+              "points": [
+                35,
+                36,
+                31,
+                38,
+                33,
+                36,
+                38,
+                38,
+                39,
+                39
+              ]
+            },
+            {
+              "dayNumber": 3,
+              "points": [
+                34,
+                33,
+                38,
+                32,
+                32,
+                30,
+                35,
+                34,
+                33,
+                34
+              ]
+            },
+            {
+              "dayNumber": 4,
+              "points": [
+                38,
+                34,
+                38,
+                32,
+                37,
+                38,
+                32,
+                39,
+                39,
+                33
+              ]
+            },
+            {
+              "dayNumber": 5,
+              "points": [
+                33,
+                34,
+                34,
+                36,
+                35,
+                33,
+                37,
+                30,
+                31,
+                31
+              ]
+            },
+            {
+              "dayNumber": 6,
+              "points": [
+                39,
+                38,
+                33,
+                34,
+                35,
+                39,
+                34,
+                38,
+                33,
+                32
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name":"LED #1",
       "macAddress":"65:5D:21:DD:A2:16",
       "category":"device",
       "uuid":"a24aaa33-324c-485a-bddd-208103999999",
       "status":false
-  }]; // DeviceList en attendant de régler les pb de CORS
+  }];
   temperatureChart: any;
   humidityChart: any;
+  // ComplexData en attendant de régler les pb de CORS en dev
   complexData: any = {
     "meanTemp": {
       "title": "Mean Teamperature (last 7 days)",
@@ -58,7 +231,7 @@ export class DashboardPage {
       "label": "Humidity level (%)",
       "level" : [45,45,46,46,47,46,45]
     }
-  }; // ComplexData en attendant de régler les pb de CORS
+  };
   devices:any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataProv: DataProvider, private storage: Storage) { }
@@ -140,12 +313,13 @@ export class DashboardPage {
   }
 
   reorderItems(indexes) {
-    this.devicesList = reorderArray(this.devicesList, indexes);
+    this.devicesListLocal = reorderArray(this.devicesListLocal, indexes);
   }
 
-  navigateToDevice(deviceID) {
+  navigateToDevice(device) {
     this.navCtrl.push('DevicesPage', {
-       deviceID : deviceID
+       device : device
+       // deviceListLocal : this.devicesListLocal
     });
   }
 
