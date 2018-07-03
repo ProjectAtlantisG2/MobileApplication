@@ -26,51 +26,23 @@
 
   <div [ngSwitch]="devicesData">
     <ion-list *ngSwitchCase="'complex'">
-      <ion-item no-lines>
         <ion-card>
-          <ion-item>
-            <ion-icon name="thermometer" class="red" item-start></ion-icon>
-            <h2>Mean temperature</h2>
-            <p class="complex-value">21 °C</p>
-          </ion-item>
-          <ion-row>
-            <ion-col>
-              <p text-right><ion-icon name="refresh-circle"></ion-icon> 12s ago</p>
-            </ion-col>
-          </ion-row>
+          <ion-card-header>
+            <h2>{{ complexData.meanTemp.title }}</h2>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #tempChart></canvas>
+          </ion-card-content>
         </ion-card>
-      </ion-item>
 
-      <ion-item no-lines no-margin>
         <ion-card>
-          <ion-item>
-            <ion-icon name="water" class="blue" item-start></ion-icon>
-            <h2>Average humidity level</h2>
-            <p class="complex-value">46 %</p>
-          </ion-item>
-          <ion-row>
-            <ion-col>
-              <p text-right><ion-icon name="refresh-circle"></ion-icon> 12s ago</p>
-            </ion-col>
-          </ion-row>
+          <ion-card-header>
+            <h2>{{ complexData.humidityLevel.title }}</h2>
+          </ion-card-header>
+          <ion-card-content>
+            <canvas #humidityChart></canvas>
+          </ion-card-content>
         </ion-card>
-      </ion-item>
-
-      <ion-item no-lines>
-        <ion-card>
-          <ion-item>
-            <ion-icon name="notifications" class="grey" item-start></ion-icon>
-            <h2>Average CO2 level</h2>
-            <p class="complex-value">100 ppm</p>
-          </ion-item>
-          <ion-row>
-            <ion-col>
-              <p text-right><ion-icon name="refresh-circle"></ion-icon> 12s ago</p>
-            </ion-col>
-          </ion-row>
-        </ion-card>
-      </ion-item>
-
     </ion-list>
 
     <!-- Material right bottom button -->
@@ -80,9 +52,27 @@
     </ion-fab>
 
     <ion-list *ngSwitchCase="'devices'">
-      <ion-item-group [reorder]="editing" (ionItemReorder)="reorderData($event)">
-        <ion-item>
-          <!--<h2>{{ complex.name }}</h2>-->
+      <ion-item-group [reorder]="true" (ionItemReorder)="reorderItems($event)">
+        <ion-item *ngFor="let device of devicesList" (click)="navigateToDevice(device.uuid)">
+          <h2>{{ device.name }}</h2>
+          <p>{{ device.macAddress }}</p>
+          <ion-row *ngIf="device.category == 'sensor'" class="device-data">
+            <div *ngIf="device.metric == 'celsius_degree'">
+              <p>Last metric : <span class="complex-value">{{ device.data }} °C</span></p>
+            </div>
+            <div *ngIf="device.metric == 'humidity_level'">
+              <p>Last metric : <span class="complex-value">{{ device.data }} %</span></p>
+            </div>
+          </ion-row>
+          <ion-row *ngIf="device.category == 'device'" class="device-data">
+            <div>
+              <p>Status :
+                <span *ngIf="device.status == true" class="complex-value"> ON</span>
+                <span *ngIf="device.status == false" class="complex-value"> OFF</span>
+              </p>
+              <!--<ion-toggle [(ngModel)]="device.status"></ion-toggle>-->
+            </div>
+          </ion-row>
         </ion-item>
       </ion-item-group>
     </ion-list>

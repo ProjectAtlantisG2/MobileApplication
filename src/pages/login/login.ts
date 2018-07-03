@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
 import { Storage } from "@ionic/storage";
-import {DashboardPage} from "../dashboard/dashboard";
+import { DashboardPage } from "../dashboard/dashboard";
 
 /**
  * Generated class for the LoginPage page.
@@ -23,13 +23,13 @@ export class LoginPage {
   }
 
   login() {
-    this.auth.authorizationEndPoint();
-    let toto = this.storage.get('loginStatus');
-    Promise.all([toto]).then((toto)=>{
-      if (toto.toString() == '1'){
-        this.navCtrl.push('DashboardPage');
-      }else { }
-    });
+    // this.auth.authorizationEndPoint();
+    // let toto = this.storage.get('loginStatus');
+    // Promise.all([toto]).then((toto)=>{
+    //   if (toto.toString() == '1'){
+    //     this.navCtrl.push('DashboardPage');
+    //   }else { }
+    // });
     this.navCtrl.push('DashboardPage');
   }
 

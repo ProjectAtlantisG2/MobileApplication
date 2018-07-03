@@ -1,6 +1,6 @@
 // import {HttpClient} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HTTP} from "@ionic-native/http";
+import { HTTP } from "@ionic-native/http";
 
 /*
   Generated class for the DataProvider provider.
@@ -11,17 +11,14 @@ import { HTTP} from "@ionic-native/http";
 @Injectable()
 export class DataProvider {
 
-  // _apiHost: string = "http://192.168.192.249:8080";
-  _apiHost: string = "http://82.237.255.86:8080";
+  // _apiHost: string = "http://192.168.192.249:8080"; // AzeromDesktop VPN
+  _apiHost: string = "http://82.237.255.86:8080"; // AzeromPublic
+  // _apiHost: string = "http://192.168.192.241:8080"; // AtlantisLinux VPN
   _testToken: string = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNTMxNDAzNjE2fQ.r4VskLh52U7Q_X53AYZXlbPItvk_uIesAQt-2Bx2j_bOnvUV-OKCcw0qJW_g1VhL4n135anaDc1N7hhmpyrJHw";
   devices:any;
 
   constructor(public http: HTTP) {
     console.log('Hello DataProvider Provider');
-  }
-
-  getComplexData():any {
-    console.log('Complex data getted');
   }
 
   apiLogin(){
@@ -58,9 +55,9 @@ export class DataProvider {
         console.log('Error :'+ response.error.toString());
         return devicesList;
       }).catch((error) => {
-        console.log(error.status);
-        console.log(error.error);
-        console.log(error.headers);
+        console.log("Error status :"+error.status);
+        console.log("Error error :"+error.error);
+        console.log("Error headers :"+error.headers);
       });
   }
 
@@ -86,20 +83,3 @@ export class DataProvider {
   }
 
 }
-
-// this.http.get(apiURL,
-//   headers:{
-//   "Authorization":this._testToken
-// }
-// ).subscribe((response) => {
-//   let devicesList = JSON.parse(response.data);
-//   console.log('URL :'+ response.url.toString());
-//   console.log('Headers :'+ response.headers.toString());
-//   console.log('Data :'+ response.data.toString());
-//   console.log('Error :'+ response.error.toString());
-//   return devicesList;
-// }).catch((error) => {
-//   console.log(error.status);
-//   console.log(error.error);
-//   console.log(error.headers);
-// });
