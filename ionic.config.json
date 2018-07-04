@@ -1,8 +1,11 @@
 {
-  "name": "atlantis",
+  "name": "AtlantisG2",
   "app_id": "",
   "type": "ionic-angular",
   "integrations": {
     "cordova": {}
+  },
+  "proxies": {
+    "path": ""
   }
 }
