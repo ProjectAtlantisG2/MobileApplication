@@ -24,19 +24,29 @@
     <p>{{ device.elapsedBetweenPoints }} ms</p>
     <h4>Device Mac Address</h4>
     <p>{{ device.macAddress }}</p>
+    <h4>Metrics history :</h4>
+    <ion-card>
+      <ion-card-content>
+        <canvas #sensorHistory></canvas>
+      </ion-card-content>
+    </ion-card>
   </div>
+
   <div *ngIf="device.category == 'device'">
     <h4>Device UUID</h4>
     <p>{{ device.uuid }}</p>
     <h4>Device Mac Address</h4>
     <p>{{ device.macAddress }}</p>
-    <h4>Device status </h4>
-    <p>Status :
-      <span *ngIf="device.status == true" class="complex-value"> ON</span>
-      <span *ngIf="device.status == false" class="complex-value"> OFF</span>
+    <h4 text-center>Status</h4>
+    <p text-center>
+      <span *ngIf="device.status == true" class="statusON"> ON</span>
+      <span *ngIf="device.status == false" class="statusOFF"> OFF</span>
     </p>
-
-    <button ion-button color="primary" [outline]="isOutline" [round]="isRound" (click)="sendCommand(device)">Send command</button>
+    <ion-row>
+      <ion-col text-center>
+        <button ion-button color="primary" [outline]="isOutline" [round]="isRound" (click)="sendCommand(device)">Send command</button>
+      </ion-col>
+    </ion-row>
   </div>
 
   <div *ngIf="getLog">

@@ -21,8 +21,26 @@ export class DataProvider {
     console.log('Hello DataProvider Provider');
   }
 
+  apiSignup(){
+    let apiURL: string = "" + this._apiHost + "/api-0.0.1-SNAPSHOT/signup";
+    this.http.post(apiURL,
+      {
+        "eliotId":"test",
+        "eliotChain":"password"
+      },
+      {}
+    ).then((resp) => {
+      console.log('this is ok');
+      let respData = JSON.parse(resp.data);
+      console.log('this is ok 2');
+      let resHeader = JSON.parse(resp.headers);
+      console.log('this is ok 3');
+      // console.log(resHeader.Authorization);
+    });
+  }
+
   apiLogin(){
-    console.log("Login tentative");
+    console.log("Try Login");
     let apiURL: string = "" + this._apiHost + "/api-0.0.1-SNAPSHOT/login";
     this.http.post(apiURL,
       {
@@ -61,9 +79,9 @@ export class DataProvider {
       });
   }
 
-  getDevice(deviceID):any {
+  getDevice(uuid):any {
     console.log("getDevicesList tentative");
-    let apiURL:string = ""+this._apiHost+"/api-0.0.1-SNAPSHOT/devices/"+ deviceID +"";
+    let apiURL:string = ""+this._apiHost+"/api-0.0.1-SNAPSHOT/devices/"+ uuid +"";
     this.http.get(apiURL,
       {
         "Authorization":this._testToken

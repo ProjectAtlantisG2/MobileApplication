@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import {Component, ViewChild} from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { HTTP } from "@ionic-native/http";
+import { Chart } from 'chart.js';
+import {errorHandler} from "@angular/platform-browser/src/browser";
 // import { HttpClient} from '@angular/common/http';
-import {HTTP} from "@ionic-native/http";
-import { Storage } from "@ionic/storage";
+// import { Storage } from "@ionic/storage";
 
 /**
  * Generated class for the DevicesPage page.
@@ -18,23 +20,30 @@ import { Storage } from "@ionic/storage";
 })
 export class DevicesPage {
 
+  @ViewChild("sensorHistory") sensorHistory;
   device:any;
   getLog=[];
+  deviceChart:any;
+  authorization:string = "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNTMxNDAzNjE2fQ.r4VskLh52U7Q_X53AYZXlbPItvk_uIesAQt-2Bx2j_bOnvUV-OKCcw0qJW_g1VhL4n135anaDc1N7hhmpyrJHw";
+  apiURL:string = "http://82.237.255.86:8080/api-0.0.1-SNAPSHOT/";
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private http : HTTP) {
     this.device = this.navParams.get("device");
-    // this.deviceListLocal = this.navParams.get("deviceListLocal");
   }
 
   ionViewDidLoad() {
     // console.log('ionViewDidLoad DevicesPage');
+    if (this.device.category == 'sensor'){
+      this.drawCharts();
+    }
   }
 
+  // Get device Advanced data from API
   getDeviceData() {
-    let url = "http://82.237.255.86:8080/api-0.0.1-SNAPSHOT/devices/5b3bdd424d5c312cf0d3d20c";
+    let url = ""+this.apiURL+"devices/"+this.device.uuid+"";
     let getReq = this.http.get(url,
       {
-        "Authorization":"Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ0ZXN0IiwiZXhwIjoxNTMxNDAzNjE2fQ.r4VskLh52U7Q_X53AYZXlbPItvk_uIesAQt-2Bx2j_bOnvUV-OKCcw0qJW_g1VhL4n135anaDc1N7hhmpyrJHw"
+        "Authorization": this.authorization
       },
       {}
       );
@@ -49,15 +58,64 @@ export class DevicesPage {
     });
   };
 
+  // Send command to the device
   sendCommand(device){
-    let status = device.status;
-    setTimeout(() =>
-      "", 10000);
+    let status:any = device.status;
+    let cmd;
+    let url = "http://82.237.255.86:8080/api-0.0.1-SNAPSHOT/command/"+this.device.uuid+"";
     if (status == true){
       device.status = false;
-    }else
-      {
-        device.status = true;
-      }
+      cmd = "0"
+    }
+    if (status == false){
+      device.status = true;
+      cmd = "1"}
+    let cmdPost = this.http.post(url,
+        {
+          'cmd':cmd
+        },
+        {'Authorization':this.authorization}
+      );
+    cmdPost.then((response)=>{
+      this.getLog.push(response.status);
+    }, (error) => {
+      this.getLog.push(error.status);
+    });
   }
+
+  drawCharts(){
+    let dataLength = this.device.data.length;
+    let chartData =  this.device.data[dataLength];
+    this.deviceChart = new Chart(this.sensorHistory.nativeElement, {
+      type: 'line',
+      data: {
+        labels: ["28/06", "29/06", "30/06", "01/07", "02/07", "03/07", "04/07"],
+        datasets: [
+          {
+            label: this.device.name,
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: chartData,
+            spanGaps: false,
+          }
+        ]
+      }
+    });
+  }
+
 }
